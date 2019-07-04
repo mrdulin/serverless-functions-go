@@ -18,13 +18,17 @@ type CompositionRoot struct {
 	CampaignResultService services.ICampaignResultService
 	GoogleAccountService  services.IGoogleAccountService
 
-	DataStoreService datastore.IDataStoreService
+	DataStoreService datastore.IService
 }
 
 func NewCompositionRoot() *CompositionRoot {
-	dataStoreOptions := datastore.Options{ProjectID: os.Getenv("GCP_PROJECT")}
+	projectId := os.Getenv("GCP_PROJECT")
+	fmt.Printf("projectId: %#v\n", projectId)
+	dataStoreOptions := datastore.Options{ProjectID: projectId}
 	dataStoreService, err := datastore.New(&dataStoreOptions)
-
+	if err != nil {
+		log.Fatalf("%+v\n", err)
+	}
 	appConfig, err := config.New("dataStore", dataStoreService)
 	if err != nil {
 		log.Fatalf("%+v\n", err)

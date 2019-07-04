@@ -2,7 +2,6 @@ package getAdPerformanceReport
 
 import (
 	"context"
-	"fmt"
 	"go-clean-arch/application"
 	"go-clean-arch/domain/models/gcloud/functions"
 )

@@ -27,10 +27,10 @@ func NewCompositionRoot() *CompositionRoot {
 
 	appConfig, err := config.New("dataStore", dataStoreService)
 	if err != nil {
-		log.Fatalf("%+v", err)
+		log.Fatalf("%+v\n", err)
 	}
-	fmt.Printf("env: %#v", os.Getenv("ENV"))
-	fmt.Printf("application config: %#v", appConfig)
+	fmt.Printf("env: %#v\n", os.Getenv("ENV"))
+	fmt.Printf("application config: %#v\n", appConfig)
 
 	dbConf := database.PGDatabaseConfig{
 		Host:     fmt.Sprintf("/cloudsql/%s", appConfig.SqlInstanceConnectionName),
@@ -40,7 +40,7 @@ func NewCompositionRoot() *CompositionRoot {
 	}
 	db, err := database.ConnectPGDatabase(&dbConf)
 	if err != nil {
-		log.Fatalf("%+v", err)
+		log.Fatalf("%+v\n", err)
 	}
 	// repositories
 	campaignResultRepo := repositories.NewCampaignResultRepository(db)

@@ -53,7 +53,7 @@ func New(configSource Source, dataStoreService datastore.IDataStoreService) (*Ap
 	} else {
 		switch configSource {
 		case Os:
-			fmt.Printf("load env vars from OS")
+			fmt.Println("load env vars from OS")
 			return &ApplicationConfig{
 				SqlHost:      os.Getenv("SQL_HOST"),
 				SqlPort:      os.Getenv("SQL_PORT"),

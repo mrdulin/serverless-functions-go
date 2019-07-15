@@ -7,7 +7,7 @@
 1. Build docker image using `Dockerfile.cloudrun` file
 
 ```bash
-docker build -f Dockerfile.cloudrun -t sls-fns-go .
+docker build -f Dockerfile.cloudrun -t cedar/serverless-functions-go .
 ```
 
 2. Push the docker image to docker registry

@@ -6,7 +6,6 @@ ENV APP=serverless-functions-go
 
 # application dependencies
 FROM builder AS application-dependencies
-WORKDIR /go/src/$APP
 COPY . .
 RUN go get -u github.com/golang/dep/cmd/dep \
   && dep ensure -v 

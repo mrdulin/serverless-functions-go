@@ -1,5 +1,9 @@
-FROM golang:1.12 as builder
+# system dependencies
+FROM golang:1.12 as builder AS system-dependencies
+LABEL maintainer="lin.l.du@pwc.com"
 
+# application dependencies
+FROM system-dependencies AS application-dependencies
 WORKDIR /go/src/go-clean-arch
 COPY . .
 RUN go get -u github.com/golang/dep/cmd/dep \

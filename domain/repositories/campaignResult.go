@@ -1,8 +1,8 @@
 package repositories
 
 import (
-	adChannelModels "go-clean-arch/domain/models/adChannel"
-	"go-clean-arch/domain/models/cedar/campaign"
+	adChannelModels "serverless-functions-go/domain/models/adChannel"
+	"serverless-functions-go/domain/models/cedar/campaign"
 )
 
 type CampaignResultRepository interface {

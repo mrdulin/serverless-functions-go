@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"github.com/pkg/errors"
 	"github.com/spf13/viper"
-	"go-clean-arch/infrastructure/gcloud/datastore"
 	"os"
 	"path/filepath"
 	"runtime"
+	"serverless-functions-go/infrastructure/gcloud/datastore"
 )
 
 type Source string
@@ -17,9 +17,7 @@ const (
 	Os        Source = "os"
 )
 
-type IApplicationConfig interface {
-	Load() (*ApplicationConfig, error)
-}
+type IApplicationConfig interface{}
 
 type ApplicationConfig struct {
 	SqlInstanceConnectionName, SqlHost, SqlPort, SqlUser, SqlPassword, SqlDb, AdChannelApi string

@@ -1,8 +1,8 @@
 package services
 
 import (
-	"go-clean-arch/domain/repositories"
 	"reflect"
+	"serverless-functions-go/domain/repositories"
 	"testing"
 )
 

@@ -1,9 +1,9 @@
 package models
 
 import (
-	"go-clean-arch/domain/models/adChannel/ad"
-	"go-clean-arch/domain/models/adChannel/adGroup"
-	"go-clean-arch/domain/models/adChannel/campaign"
+	"serverless-functions-go/domain/models/adChannel/ad"
+	"serverless-functions-go/domain/models/adChannel/adGroup"
+	"serverless-functions-go/domain/models/adChannel/campaign"
 )
 
 type AdPerformanceReportRow struct {

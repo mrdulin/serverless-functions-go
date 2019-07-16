@@ -2,8 +2,8 @@ package services
 
 import (
 	"fmt"
-	"go-clean-arch/domain/models/cedar"
-	"go-clean-arch/domain/repositories"
+	"serverless-functions-go/domain/models/cedar"
+	"serverless-functions-go/domain/repositories"
 )
 
 type IGoogleAccountService interface {

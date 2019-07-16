@@ -1,9 +1,9 @@
 package repositories
 
 import (
-	"go-clean-arch/domain/models/cedar/campaign"
-	"go-clean-arch/domain/repositories"
 	"reflect"
+	"serverless-functions-go/domain/models/cedar/campaign"
+	"serverless-functions-go/domain/repositories"
 	"testing"
 
 	"github.com/jmoiron/sqlx"

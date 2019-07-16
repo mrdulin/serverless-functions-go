@@ -3,8 +3,8 @@ package repositories
 import (
 	"github.com/jmoiron/sqlx"
 	"github.com/pkg/errors"
-	"go-clean-arch/domain/models/cedar"
-	"go-clean-arch/domain/repositories"
+	"serverless-functions-go/domain/models/cedar"
+	"serverless-functions-go/domain/repositories"
 )
 
 type GoogleAccountRepository struct {

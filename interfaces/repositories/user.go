@@ -2,9 +2,9 @@ package repositories
 
 import (
 	"github.com/jmoiron/sqlx"
-	"go-clean-arch/domain/models"
+	"serverless-functions-go/domain/models"
 )
-import "go-clean-arch/domain/repositories"
+import "serverless-functions-go/domain/repositories"
 
 type userRepository struct {
 	Db *sqlx.DB

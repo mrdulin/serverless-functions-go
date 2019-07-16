@@ -1,7 +1,7 @@
 package repositories
 
 import (
-	"go-clean-arch/domain/models/cedar/campaign"
+	"serverless-functions-go/domain/models/cedar/campaign"
 )
 
 type CampaignRepository interface {

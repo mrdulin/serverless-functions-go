@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	reports "go-clean-arch/infrastructure/cloudrun/reports"
 	"log"
 	"net/http"
 	"os"
+	reports "serverless-functions-go/infrastructure/cloudrun/reports"
 )
 
 func main() {

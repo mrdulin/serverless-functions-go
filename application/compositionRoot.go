@@ -2,13 +2,13 @@ package application
 
 import (
 	"fmt"
-	"go-clean-arch/domain/services"
-	"go-clean-arch/infrastructure/config"
-	"go-clean-arch/infrastructure/database"
-	"go-clean-arch/infrastructure/gcloud/datastore"
-	"go-clean-arch/interfaces/repositories"
 	"log"
 	"os"
+	"serverless-functions-go/domain/services"
+	"serverless-functions-go/infrastructure/config"
+	"serverless-functions-go/infrastructure/database"
+	"serverless-functions-go/infrastructure/gcloud/datastore"
+	"serverless-functions-go/interfaces/repositories"
 )
 
 type CompositionRoot struct {
@@ -24,7 +24,8 @@ type CompositionRoot struct {
 func NewCompositionRoot() *CompositionRoot {
 	projectId := os.Getenv("GCP_PROJECT")
 	fmt.Printf("projectId: %#v\n", projectId)
-	dataStoreOptions := datastore.Options{ProjectID: projectId}
+	dataStoreCredentials := os.Getenv("DATASTORE_CREDENTIALS")
+	dataStoreOptions := datastore.Options{ProjectID: projectId, CredentialsFile: dataStoreCredentials}
 	dataStoreService, err := datastore.New(&dataStoreOptions)
 	if err != nil {
 		log.Fatalf("%+v\n", err)

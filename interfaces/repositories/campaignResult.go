@@ -3,10 +3,10 @@ package repositories
 import (
 	"github.com/jmoiron/sqlx"
 	"github.com/pkg/errors"
-	models "go-clean-arch/domain/models/adChannel"
-	cedarCampaign "go-clean-arch/domain/models/cedar/campaign"
-	"go-clean-arch/domain/repositories"
 	"log"
+	models "serverless-functions-go/domain/models/adChannel"
+	cedarCampaign "serverless-functions-go/domain/models/cedar/campaign"
+	"serverless-functions-go/domain/repositories"
 )
 
 type CampaignResultRepository struct {

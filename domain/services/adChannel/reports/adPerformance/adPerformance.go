@@ -4,10 +4,10 @@ import (
 	"bytes"
 	"encoding/json"
 	"encoding/xml"
-	models "go-clean-arch/domain/models/adChannel"
-	"go-clean-arch/domain/services"
 	"io/ioutil"
 	"net/http"
+	models "serverless-functions-go/domain/models/adChannel"
+	"serverless-functions-go/domain/services"
 	"strconv"
 
 	"github.com/pkg/errors"

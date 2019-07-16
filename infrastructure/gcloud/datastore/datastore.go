@@ -5,6 +5,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/pkg/errors"
+	"google.golang.org/api/option"
 )
 
 type EnvVarEntity struct {
@@ -37,13 +38,17 @@ type Service struct {
 }
 
 type Options struct {
-	ProjectID string
+	ProjectID       string
+	CredentialsFile string
 }
 
 func New(options *Options) (*Service, error) {
 	ctx := context.Background()
 	fmt.Printf("Options: %#v", options)
-	client, err := datastore.NewClient(ctx, options.ProjectID)
+	clientOption := option.ClientOption(
+		option.WithCredentialsFile(options.CredentialsFile),
+	)
+	client, err := datastore.NewClient(ctx, options.ProjectID, clientOption)
 	if err != nil {
 		return nil, errors.Wrap(err, "datastore.NewClient")
 	}

@@ -2,8 +2,8 @@ package repositories
 
 import (
 	"github.com/jmoiron/sqlx"
-	"go-clean-arch/domain/models/cedar"
-	"go-clean-arch/domain/repositories"
+	"serverless-functions-go/domain/models/cedar"
+	"serverless-functions-go/domain/repositories"
 )
 
 type LocationRepository struct {

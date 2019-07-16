@@ -1,7 +1,7 @@
 package repositories
 
 import (
-	"go-clean-arch/domain/models"
+	"serverless-functions-go/domain/models"
 )
 
 type UserRepository interface {

@@ -2,11 +2,11 @@ package application
 
 import (
 	"fmt"
-	"go-clean-arch/domain/models"
-	"go-clean-arch/domain/services"
-	"go-clean-arch/domain/services/adChannel/reports/adPerformance"
-	"go-clean-arch/infrastructure/config"
 	"log"
+	"serverless-functions-go/domain/models"
+	"serverless-functions-go/domain/services"
+	"serverless-functions-go/domain/services/adChannel/reports/adPerformance"
+	"serverless-functions-go/infrastructure/config"
 )
 
 type IAdPerformanceReportUseCase interface {

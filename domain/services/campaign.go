@@ -1,8 +1,8 @@
 package services
 
 import (
-	"go-clean-arch/domain/models"
-	"go-clean-arch/domain/repositories"
+	"serverless-functions-go/domain/models"
+	"serverless-functions-go/domain/repositories"
 )
 
 type ICampaignService interface {

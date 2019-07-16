@@ -1,9 +1,9 @@
 package services
 
 import (
-	"go-clean-arch/domain/models/cedar"
-	"go-clean-arch/domain/repositories"
 	"reflect"
+	"serverless-functions-go/domain/models/cedar"
+	"serverless-functions-go/domain/repositories"
 	"testing"
 )
 

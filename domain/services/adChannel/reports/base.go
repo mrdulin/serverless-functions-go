@@ -1,6 +1,6 @@
 package services
 
-import models "go-clean-arch/domain/models/adChannel"
+import models "serverless-functions-go/domain/models/adChannel"
 
 type IBaseReportService interface {
 	GetRows(report models.BaseReport) []interface{}

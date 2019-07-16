@@ -1,15 +1,26 @@
+# system dependencies
 FROM golang:1.12 as builder
+LABEL maintainer="lin.l.du@pwc.com"
 
-WORKDIR /go/src/go-clean-arch
+ENV APP=serverless-functions-go
+
+# application dependencies
+FROM builder AS application-dependencies
+WORKDIR /go/src/$APP
 COPY . .
 RUN go get -u github.com/golang/dep/cmd/dep \
-  && dep ensure -v \
-  && CGO_ENABLED=0 GOOS=linux go build -v -o sls-fns-go ./infrastructure/cloudrun
+  && dep ensure -v 
 
-FROM alpine
-RUN apk add --no-cache ca-certificates
+# lint & test & build
+FROM application-dependencies AS ci
+WORKDIR /go/src/$APP
+RUN go test -v ./... \
+  && CGO_ENABLED=0 GOOS=linux go build -v -o ./bin/sls-fns-go ./infrastructure/cloudrun
 
-WORKDIR /usr/bin
-COPY --from=builder /go/src/go-clean-arch/sls-fns-go .
+# release
+FROM ci as release
+WORKDIR /app/bin
 
-CMD ["./sls-fns-go"]
+COPY --from=ci /go/src/$APP/bin /app/bin
+
+CMD ["./app/bin/sls-fns-go"]

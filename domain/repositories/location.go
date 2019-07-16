@@ -1,7 +1,7 @@
 package repositories
 
 import (
-	"go-clean-arch/domain/models/cedar"
+	"serverless-functions-go/domain/models/cedar"
 )
 
 type LocationRepository interface {

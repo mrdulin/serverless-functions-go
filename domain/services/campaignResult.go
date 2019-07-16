@@ -2,14 +2,14 @@ package services
 
 import (
 	"fmt"
-	adChannelModels "go-clean-arch/domain/models/adChannel"
+	adChannelModels "serverless-functions-go/domain/models/adChannel"
 
-	googleChannelAd "go-clean-arch/domain/models/adChannel/ad"
-	googleChannelAdGroup "go-clean-arch/domain/models/adChannel/adGroup"
-	googleChannelCampaign "go-clean-arch/domain/models/adChannel/campaign"
-	cedarCampaign "go-clean-arch/domain/models/cedar/campaign"
+	googleChannelAd "serverless-functions-go/domain/models/adChannel/ad"
+	googleChannelAdGroup "serverless-functions-go/domain/models/adChannel/adGroup"
+	googleChannelCampaign "serverless-functions-go/domain/models/adChannel/campaign"
+	cedarCampaign "serverless-functions-go/domain/models/cedar/campaign"
 
-	"go-clean-arch/domain/repositories"
+	"serverless-functions-go/domain/repositories"
 )
 
 type ICampaignResultService interface {

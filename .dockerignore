@@ -16,6 +16,7 @@ k8s
 .env*
 
 vendor
+infrastructure/functions/getAdPerformanceReport/vendor
 config.*.json
 bin
 pkg

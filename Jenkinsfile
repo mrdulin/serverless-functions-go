@@ -79,7 +79,7 @@ pipeline {
                         sh "gcloud config set project ${GCP_PROJECT_ID}"
                         sh "gcloud config set compute/zone ${ZONE}"
                         /* sh "gcloud beta run deploy --image=${DOCKER_REGISTRY}/${PROJECT_NAME}/${GIT_REPO}:${COMMIT7} --set-cloudsql-instances ${instance_name} --set-env-vars ENV=production,GCP_PROJECT=${GCP_PROJECT_ID} --platform managed --region ${ZONE}" */
-                        sh "./scripts/functions/deploy.sh"
+                        sh "docker run ${DOCKER_REGISTRY}/${PROJECT_NAME}/${GIT_REPO}:${COMMIT7}"
                     }
                 }
             }

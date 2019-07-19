@@ -9,3 +9,4 @@ ENV PATH $PATH:/root/google-cloud-sdk/bin
 
 WORKDIR /go/src/$APP
 COPY . .
+CMD /go/src/$APP/scripts/functions/deploy.sh

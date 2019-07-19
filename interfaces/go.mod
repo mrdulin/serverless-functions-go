@@ -1,1 +1,1 @@
-module go-clean-arch/interfaces
+module serverless-functions-go/interfaces

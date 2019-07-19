@@ -1,1 +1,1 @@
-module go-clean-arch/domain
+module serverless-functions-go/domain

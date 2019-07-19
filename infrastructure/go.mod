@@ -1,1 +1,1 @@
-module go-clean-arch/infrastructure
+module serverless-functions-go/infrastructure

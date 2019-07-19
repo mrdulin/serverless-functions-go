@@ -2,8 +2,8 @@ package getAdPerformanceReport
 
 import (
 	"context"
-	"application"
-	"domain/models/gcloud/functions"
+	"serverless-functions-go/application"
+	"serverless-functions-go/domain/models/gcloud/functions"
 )
 
 var compositionRoot *application.CompositionRoot

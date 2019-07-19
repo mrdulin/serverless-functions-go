@@ -20,7 +20,7 @@ type IAdPerformanceReportService interface {
 }
 
 type AdPerformanceReportServiceOptions struct {
-	ClientCustomerId int
+	ClientCustomerId string
 	RefreshToken     string
 	BaseURL          string
 
@@ -55,7 +55,7 @@ func (svc *AdPerformanceReportService) Get(reportDefinition ...models.ReportDefi
 	if err != nil {
 		return nil, errors.Wrap(err, "http.NewRequest")
 	}
-	req.Header.Set("ClientCustomerId", strconv.Itoa(svc.options.ClientCustomerId))
+	req.Header.Set("ClientCustomerId", svc.options.ClientCustomerId)
 	req.Header.Set("RefreshToken", svc.options.RefreshToken)
 	req.Header.Set("Content-Type", "application/json")
 

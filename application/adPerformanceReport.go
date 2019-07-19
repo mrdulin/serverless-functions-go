@@ -34,11 +34,11 @@ func NewAdPerformanceReportUseCase(
 }
 
 func (uc *AdPerformanceReportUseCase) Get() error {
-	googleAccounts, err := uc.googleAccountService.FindGoogleAccountsForReport()
+	googleAccountsForReport, err := uc.googleAccountService.FindGoogleAccountsForReport()
 	if err != nil {
 		return err
 	}
-	fmt.Printf("%#v", googleAccounts)
+	fmt.Printf("%#v", googleAccountsForReport)
 
 	googleCampaignIds, err := uc.campaignService.FindValidGoogleCampaignIds()
 	if err != nil {
@@ -49,10 +49,10 @@ func (uc *AdPerformanceReportUseCase) Get() error {
 		return err
 	}
 
-	for _, googleAccount := range googleAccounts {
+	for _, googleAccountForReport := range googleAccountsForReport {
 		options := adPerformance.AdPerformanceReportServiceOptions{
-			ClientCustomerId:      googleAccount.GoogleAdwordsClientCustomerId,
-			RefreshToken:          googleAccount.GoogleAccountRefreshToken,
+			ClientCustomerId:      googleAccountForReport.ClientCustomerId,
+			RefreshToken:          googleAccountForReport.RefreshToken,
 			BaseURL:               uc.appConfig.AdChannelApi,
 			CampaignResultService: uc.campaignResultService,
 		}
@@ -60,7 +60,7 @@ func (uc *AdPerformanceReportUseCase) Get() error {
 		reportDefinition := adPerformanceService.FormReportDefinition(googleCampaignIds)
 		report, err := adPerformanceService.Get(reportDefinition)
 		if err != nil {
-			fmt.Printf("update status for google account customer id = %d error", googleAccount.GoogleAdwordsClientCustomerId)
+			fmt.Printf("update status for google account customer id = %s error", googleAccountForReport.ClientCustomerId)
 			return err
 		}
 		reportRows := report.GetRows()
@@ -68,7 +68,7 @@ func (uc *AdPerformanceReportUseCase) Get() error {
 		if err != nil {
 			return err
 		}
-		fmt.Printf("update status for google account customer id = %d transaction done\n", googleAccount.GoogleAdwordsClientCustomerId)
+		fmt.Printf("update status for google account customer id = %s transaction done\n", googleAccountForReport.ClientCustomerId)
 	}
 
 	return nil

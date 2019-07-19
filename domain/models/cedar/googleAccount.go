@@ -20,5 +20,10 @@ type GoogleAccount struct {
 
 	GoogleAdwordsId               int    `db:"google_adwords_id"`
 	GoogleAdwordsCustomerNme      string `db:"google_adwords_customer_nme"`
-	GoogleAdwordsClientCustomerId int    `db:"google_adwords_client_customer_id"`
+	GoogleAdwordsClientCustomerId string `db:"google_adwords_client_customer_id"`
+}
+
+type GoogleAccountForReport struct {
+	RefreshToken     string
+	ClientCustomerId string
 }

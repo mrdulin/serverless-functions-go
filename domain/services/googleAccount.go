@@ -7,7 +7,7 @@ import (
 )
 
 type IGoogleAccountService interface {
-	FindGoogleAccountsForReport() ([]cedar.GoogleAccount, error)
+	FindGoogleAccountsForReport() ([]*cedar.GoogleAccountForReport, error)
 }
 
 type GoogleAccountService struct {
@@ -19,14 +19,14 @@ func NewGoogleAccountService(googleAccountRepo repositories.GoogleAccountReposit
 	return &GoogleAccountService{googleAccountRepo, locationRepo}
 }
 
-func (svc *GoogleAccountService) FindGoogleAccountsForReport() ([]cedar.GoogleAccount, error) {
-	googleAccounts := make([]cedar.GoogleAccount, 0)
+func (svc *GoogleAccountService) FindGoogleAccountsForReport() ([]*cedar.GoogleAccountForReport, error) {
+	var googleAccountsForReport []*cedar.GoogleAccountForReport
 	locations, err := svc.locationRepo.FindLocationsBoundGoogleClientCustomerId()
 	if err != nil {
-		return googleAccounts, err
+		return nil, err
 	}
 	if len(locations) == 0 {
-		return googleAccounts, fmt.Errorf("no location binds google adwords client customer id")
+		return nil, fmt.Errorf("no location binds google adwords client customer id")
 	}
 
 	googleAdWordsClientCustomerIds := make([]int, 0)
@@ -37,26 +37,34 @@ func (svc *GoogleAccountService) FindGoogleAccountsForReport() ([]cedar.GoogleAc
 	}
 
 	if len(googleAdWordsClientCustomerIds) == 0 {
-		return googleAccounts, fmt.Errorf("no google adwords client customer ids")
+		return nil, fmt.Errorf("no google adwords client customer ids")
 	}
-
-	fmt.Printf("googleAdWordsClientCustomerIds = %+v", googleAdWordsClientCustomerIds)
 
 	googleAccountsForZOWI, err := svc.googleAccountRepo.FindByClientCustomerIds(googleAdWordsClientCustomerIds)
 	if err != nil {
-		return googleAccounts, err
+		return nil, err
 	}
-	googleAccounts = append(googleAccounts, googleAccountsForZOWI...)
+	for _, googleAccountForZOWI := range googleAccountsForZOWI {
+		googleAccountsForReport = append(googleAccountsForReport, &cedar.GoogleAccountForReport{
+			RefreshToken:     googleAccountForZOWI.GoogleAccountRefreshToken,
+			ClientCustomerId: googleAccountForZOWI.GoogleAdwordsClientCustomerId,
+		})
+	}
 
 	googleAccountsForZELO, err := svc.googleAccountRepo.FindByCampaignRanByZOWIForZELO()
 	if err != nil {
-		return googleAccounts, err
+		return nil, err
 	}
-	googleAccounts = append(googleAccounts, googleAccountsForZELO...)
-
-	if len(googleAccounts) == 0 {
-		return googleAccounts, fmt.Errorf("no google accounts for getting report")
+	for _, googleAccountForZELO := range googleAccountsForZELO {
+		googleAccountsForReport = append(googleAccountsForReport, &cedar.GoogleAccountForReport{
+			RefreshToken:     googleAccountForZELO.GoogleAccountRefreshToken,
+			ClientCustomerId: googleAccountForZELO.GoogleAccountDefaultCustomerId,
+		})
 	}
 
-	return googleAccounts, nil
+	if len(googleAccountsForReport) == 0 {
+		return nil, fmt.Errorf("no google accounts for getting report")
+	}
+
+	return googleAccountsForReport, nil
 }

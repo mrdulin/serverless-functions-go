@@ -53,10 +53,10 @@ pipeline {
             steps {
                 withCredentials([[$class: "UsernamePasswordMultiBinding", credentialsId: "643ea364-b0ca-4140-a4ef-1a525401724b", usernameVariable: "JFROG_USER", passwordVariable: "JFROG_PASSWORD"]]) {
                     sh "docker login --username ${JFROG_USER} --password ${JFROG_PASSWORD} dtr.artifacts.pwc.com"
-                        sh "docker tag ${PROJECT_NAME}/${GIT_REPO}:${COMMIT7} ${DOCKER_REGISTRY}/${PROJECT_NAME}/${GIT_REPO}:${COMMIT7}"
                         sh "docker tag ${PROJECT_NAME}/${GIT_REPO}:${COMMIT7} ${DOCKER_REGISTRY}/${PROJECT_NAME}/${GIT_REPO}:latest"
-                        sh "docker push ${DOCKER_REGISTRY}/${PROJECT_NAME}/${GIT_REPO}:${COMMIT7}"
+                        sh "docker tag ${PROJECT_NAME}/${GIT_REPO}:${COMMIT7} ${DOCKER_REGISTRY}/${PROJECT_NAME}/${GIT_REPO}:${COMMIT7}"
                         sh "docker push ${DOCKER_REGISTRY}/${PROJECT_NAME}/${GIT_REPO}:latest"
+                        sh "docker push ${DOCKER_REGISTRY}/${PROJECT_NAME}/${GIT_REPO}:${COMMIT7}"
                 }
             }
         }

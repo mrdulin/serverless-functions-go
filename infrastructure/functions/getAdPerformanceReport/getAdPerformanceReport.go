@@ -2,8 +2,8 @@ package getAdPerformanceReport
 
 import (
 	"context"
-	"go-clean-arch/application"
-	"go-clean-arch/domain/models/gcloud/functions"
+	"application"
+	"domain/models/gcloud/functions"
 )
 
 var compositionRoot *application.CompositionRoot

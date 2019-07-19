@@ -3,7 +3,6 @@ package datastore
 import (
 	"cloud.google.com/go/datastore"
 	"context"
-	"fmt"
 	"github.com/pkg/errors"
 	"google.golang.org/api/option"
 )
@@ -44,7 +43,6 @@ type Options struct {
 
 func New(options *Options) (*Service, error) {
 	ctx := context.Background()
-	fmt.Printf("Options: %#v", options)
 	clientOption := option.ClientOption(
 		option.WithCredentialsFile(options.CredentialsFile),
 	)

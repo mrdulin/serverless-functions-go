@@ -23,7 +23,6 @@ type CompositionRoot struct {
 
 func NewCompositionRoot() *CompositionRoot {
 	projectId := os.Getenv("GCP_PROJECT")
-	fmt.Printf("projectId: %#v\n", projectId)
 	dataStoreCredentials := os.Getenv("DATASTORE_CREDENTIALS")
 	dataStoreOptions := datastore.Options{ProjectID: projectId, CredentialsFile: dataStoreCredentials}
 	dataStoreService, err := datastore.New(&dataStoreOptions)

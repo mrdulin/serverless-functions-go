@@ -38,7 +38,6 @@ func (uc *AdPerformanceReportUseCase) Get() error {
 	if err != nil {
 		return err
 	}
-	fmt.Printf("%#v", googleAccountsForReport)
 
 	googleCampaignIds, err := uc.campaignService.FindValidGoogleCampaignIds()
 	if err != nil {

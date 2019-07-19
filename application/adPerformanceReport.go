@@ -16,22 +16,30 @@ type IAdPerformanceReportUseCase interface {
 type AdPerformanceReportUseCase struct {
 	campaignService       services.ICampaignService
 	campaignResultService services.ICampaignResultService
+	googleAccountService  services.IGoogleAccountService
 	appConfig             *config.ApplicationConfig
 }
 
 func NewAdPerformanceReportUseCase(
 	campaignService services.ICampaignService,
 	campaignResultService services.ICampaignResultService,
+	googleAccountService services.IGoogleAccountService,
 	appConfig *config.ApplicationConfig,
 ) IAdPerformanceReportUseCase {
 	return &AdPerformanceReportUseCase{
 		campaignService,
 		campaignResultService,
+		googleAccountService,
 		appConfig,
 	}
 }
 
 func (uc *AdPerformanceReportUseCase) Get() error {
+	googleAccounts, err := uc.googleAccountService.FindGoogleAccountsForReport()
+	if err != nil {
+		return err
+	}
+
 	googleCampaignIds, err := uc.campaignService.FindValidGoogleCampaignIds()
 	if err != nil {
 		if err, ok := err.(*models.AppError); ok {
@@ -41,24 +49,26 @@ func (uc *AdPerformanceReportUseCase) Get() error {
 		return err
 	}
 
-	options := adPerformance.AdPerformanceReportServiceOptions{
-		ClientCustomerId:      uc.appConfig.ClientCustomerId,
-		RefreshToken:          uc.appConfig.RefreshToken,
-		BaseURL:               uc.appConfig.AdChannelApi,
-		CampaignResultService: uc.campaignResultService,
-	}
-	adPerformanceService := adPerformance.NewAdPerformanceReportService(options)
-	reportDefinition := adPerformanceService.FormReportDefinition(googleCampaignIds)
-	report, err := adPerformanceService.Get(reportDefinition)
-	if err != nil {
-		return err
-	}
-	reportRows := report.GetRows()
-	err = adPerformanceService.UpdateStatusTransaction(reportRows)
-	if err != nil {
-		return err
+	for _, googleAccount := range googleAccounts {
+		options := adPerformance.AdPerformanceReportServiceOptions{
+			ClientCustomerId:      googleAccount.GoogleAdwordsClientCustomerId,
+			RefreshToken:          googleAccount.GoogleAccountRefreshToken,
+			BaseURL:               uc.appConfig.AdChannelApi,
+			CampaignResultService: uc.campaignResultService,
+		}
+		adPerformanceService := adPerformance.NewAdPerformanceReportService(options)
+		reportDefinition := adPerformanceService.FormReportDefinition(googleCampaignIds)
+		report, err := adPerformanceService.Get(reportDefinition)
+		if err != nil {
+			return err
+		}
+		reportRows := report.GetRows()
+		err = adPerformanceService.UpdateStatusTransaction(reportRows)
+		if err != nil {
+			return err
+		}
+		log.Printf("update status for google account customer id = %s transaction done\n", googleAccount.GoogleAdwordsClientCustomerId)
 	}
 
-	log.Printf("update status transaction done\n")
 	return nil
 }

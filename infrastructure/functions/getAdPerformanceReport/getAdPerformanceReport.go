@@ -16,6 +16,7 @@ func GetAdPerformanceReport(_ context.Context, _ functions.PubSubMessage) error 
 	adPerformanceReportUseCase := application.NewAdPerformanceReportUseCase(
 		compositionRoot.CampaignService,
 		compositionRoot.CampaignResultService,
+		compositionRoot.GoogleAccountService,
 		compositionRoot.AppConfig,
 	)
 	if err := adPerformanceReportUseCase.Get(); err != nil {

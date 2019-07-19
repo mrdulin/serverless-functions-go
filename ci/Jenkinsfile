@@ -43,11 +43,11 @@ pipeline {
                 }
             }
         }
-        stage("ci"){
-            steps {
-                sh "docker run ${PROJECT_NAME}/${GIT_REPO}:ci yarn run ci"
-            }
-        }
+        /* stage("ci"){ */
+        /*     steps { */
+        /*         sh "docker run ${PROJECT_NAME}/${GIT_REPO}:ci yarn run ci" */
+        /*     } */
+        /* } */
         stage("Tag && Push"){
             steps {
                 withCredentials([[$class: "UsernamePasswordMultiBinding", credentialsId: "643ea364-b0ca-4140-a4ef-1a525401724b", usernameVariable: "JFROG_USER", passwordVariable: "JFROG_PASSWORD"]]) {

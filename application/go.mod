@@ -1,1 +1,1 @@
-module go-clean-arch/application
+module serverless-functions-go/application

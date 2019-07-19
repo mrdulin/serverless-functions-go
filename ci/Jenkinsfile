@@ -37,8 +37,8 @@ pipeline {
                 script{
                     echo "Your COMMIT = latest ; COMMIT7 = ${COMMIT7}"
                     /* Use --target ci if one Dockerfile, or use -f ci/Dockerfile if two Dockerfiles */
-                    sh "docker build -t ${PROJECT_NAME}/${GIT_REPO}:ci --target ci -f Dockerfile.cloudrun ."
-                    sh "docker build -t ${PROJECT_NAME}/${GIT_REPO}:${COMMIT7} . -f Dockerfile.cloudrun"
+                    /* sh "docker build -t ${PROJECT_NAME}/${GIT_REPO}:ci --target ci -f Dockerfile ." */
+                    sh "docker build -t ${PROJECT_NAME}/${GIT_REPO}:${COMMIT7} . -f Dockerfile"
                     /* sh "docker build -t ${PROJECT_NAME}/${GIT_REPO}:ci -f ci/Dockerfile ." */
                 }
             }

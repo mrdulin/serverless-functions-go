@@ -61,25 +61,24 @@ pipeline {
                 script {
                     def COMMIT7 = sh ( script: "cat ${JENKINS_HOME}/userContent/${GIT_REPO}/COMMIT.txt", returnStdout: true).trim()
 
-                    // if ( GCP_ENV == "dev" ){
-                    //     GCP_PROJECT_ID = "pg-gx-e-app-700458"
-                    //     instance_name = "pg-gx-e-app-700458:us-central1:cedar-database"
-                    // }else if ( GCP_ENV == "qa" ){
-                    //     GCP_PROJECT_ID = "pg-us-n-app-991483"
-                    //     instance_name = "pg-us-n-app-991483:us-central1:cedar-database"
-                    // }else if ( GCP_ENV == "stage" ){
-                    //     GCP_PROJECT_ID = "pg-us-p-app-319619"
-                    //     instance_name = "pg-us-p-app-319619:us-east1:cedar-database"
-                    // }else if ( GCP_ENV == "prod" ){
-                    //     GCP_PROJECT_ID = "pg-us-p-app-695770"
-                    //     instance_name = "pg-us-p-app-695770:us-east1:cedar-database"
-                    // }
+                    if ( GCP_ENV == "dev" ){
+                        GCP_PROJECT_ID = "pg-gx-e-app-700458"
+                        instance_name = "pg-gx-e-app-700458:us-central1:cedar-database"
+                    }else if ( GCP_ENV == "qa" ){
+                        GCP_PROJECT_ID = "pg-us-n-app-991483"
+                        instance_name = "pg-us-n-app-991483:us-central1:cedar-database"
+                    }else if ( GCP_ENV == "stage" ){
+                        GCP_PROJECT_ID = "pg-us-p-app-319619"
+                        instance_name = "pg-us-p-app-319619:us-east1:cedar-database"
+                    }else if ( GCP_ENV == "prod" ){
+                        GCP_PROJECT_ID = "pg-us-p-app-695770"
+                        instance_name = "pg-us-p-app-695770:us-east1:cedar-database"
+                    }
                     withCredentials([file(credentialsId: "${GCP_PROJECT_ID}-jenkins-keys", variable: "SERVICE_ACCOUNT")]) {
                         sh "gcloud auth activate-service-account --key-file ${SERVICE_ACCOUNT}"
                         sh "gcloud config set project ${GCP_PROJECT_ID}"
                         sh "gcloud config set compute/zone ${ZONE}"
-                        /* sh "gcloud beta run deploy --image=${DOCKER_REGISTRY}/${PROJECT_NAME}/${GIT_REPO}:${COMMIT7} --set-cloudsql-instances ${instance_name} --set-env-vars ENV=production,GCP_PROJECT=${GCP_PROJECT_ID} --platform managed --region ${ZONE}" */
-                        sh "./scripts/functions/deploy.sh"
+                        sh "gcloud beta run deploy --image=${DOCKER_REGISTRY}/${PROJECT_NAME}/${GIT_REPO}:${COMMIT7} --set-cloudsql-instances ${instance_name} --set-env-vars ENV=production,GCP_PROJECT=${GCP_PROJECT_ID} --platform managed --region ${ZONE}"
                     }
                 }
             }

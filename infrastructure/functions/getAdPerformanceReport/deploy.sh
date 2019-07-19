@@ -2,4 +2,4 @@
 
 cd "$(dirname "$0")"
 export GO111MODULE=on
-go mod vendor && gcloud functions deploy GetAdPerformanceReport --runtime=go111 --trigger-topic get-ad-performance-report --env-vars ENV=production
+go mod vendor && gcloud functions deploy GetAdPerformanceReport --runtime=go111 --trigger-topic get-ad-performance-report --set-env-vars ENV=production

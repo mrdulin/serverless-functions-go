@@ -40,6 +40,8 @@ func (svc *GoogleAccountService) FindGoogleAccountsForReport() ([]cedar.GoogleAc
 		return googleAccounts, fmt.Errorf("no google adwords client customer ids")
 	}
 
+	fmt.Printf("googleAdWordsClientCustomerIds = %+v", googleAdWordsClientCustomerIds)
+
 	googleAccountsForZOWI, err := svc.googleAccountRepo.FindByClientCustomerIds(googleAdWordsClientCustomerIds)
 	if err != nil {
 		return googleAccounts, err

@@ -2,7 +2,6 @@ package application
 
 import (
 	"fmt"
-	"log"
 	"serverless-functions-go/domain/models"
 	"serverless-functions-go/domain/services"
 	"serverless-functions-go/domain/services/adChannel/reports/adPerformance"
@@ -60,6 +59,7 @@ func (uc *AdPerformanceReportUseCase) Get() error {
 		reportDefinition := adPerformanceService.FormReportDefinition(googleCampaignIds)
 		report, err := adPerformanceService.Get(reportDefinition)
 		if err != nil {
+			fmt.Printf("update status for google account customer id = %d error", googleAccount.GoogleAdwordsClientCustomerId)
 			return err
 		}
 		reportRows := report.GetRows()
@@ -67,7 +67,7 @@ func (uc *AdPerformanceReportUseCase) Get() error {
 		if err != nil {
 			return err
 		}
-		log.Printf("update status for google account customer id = %s transaction done\n", googleAccount.GoogleAdwordsClientCustomerId)
+		fmt.Printf("update status for google account customer id = %d transaction done\n", googleAccount.GoogleAdwordsClientCustomerId)
 	}
 
 	return nil

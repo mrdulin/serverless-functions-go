@@ -67,7 +67,7 @@ func New(configSource Source, dataStoreService datastore.IService) (*Application
 				return nil, err
 			}
 			return &ApplicationConfig{
-				SqlInstanceConnectionName: envVars.SQL_INSTANCE_CONNECTION_NAME,
+				SqlInstanceConnectionName: envVars.INSTANCE_CONNECTION_NAME,
 				SqlDb:                     envVars.SQL_DATABASE,
 				SqlUser:                   envVars.SQL_USER,
 				SqlPassword:               envVars.SQL_PASSWORD,

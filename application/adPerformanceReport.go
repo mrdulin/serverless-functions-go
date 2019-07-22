@@ -48,6 +48,8 @@ func (uc *AdPerformanceReportUseCase) Get() error {
 		return err
 	}
 
+	fmt.Printf("campaigns with ID = %+v will update status\n", googleCampaignIds)
+
 	for _, googleAccountForReport := range googleAccountsForReport {
 		options := adPerformance.AdPerformanceReportServiceOptions{
 			ClientCustomerId:      googleAccountForReport.ClientCustomerId,
@@ -63,6 +65,7 @@ func (uc *AdPerformanceReportUseCase) Get() error {
 			return err
 		}
 		reportRows := report.GetRows()
+		fmt.Printf("get report rows = %+v\n", reportRows)
 		err = adPerformanceService.UpdateStatusTransaction(reportRows)
 		if err != nil {
 			return err

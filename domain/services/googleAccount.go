@@ -56,10 +56,13 @@ func (svc *GoogleAccountService) FindGoogleAccountsForReport() ([]*cedar.GoogleA
 		return nil, err
 	}
 	for _, googleAccountForZELO := range googleAccountsForZELO {
-		googleAccountsForReport = append(googleAccountsForReport, &cedar.GoogleAccountForReport{
-			RefreshToken:     googleAccountForZELO.GoogleAccountRefreshToken,
-			ClientCustomerId: googleAccountForZELO.GoogleAccountDefaultCustomerId,
-		})
+		if googleAccountForZELO.GoogleAccountDefaultCustomerId.Valid {
+			googleAccountsForReport = append(googleAccountsForReport, &cedar.GoogleAccountForReport{
+				RefreshToken:     googleAccountForZELO.GoogleAccountRefreshToken,
+				ClientCustomerId: googleAccountForZELO.GoogleAccountDefaultCustomerId.String,
+			})
+		}
+
 	}
 
 	if len(googleAccountsForReport) == 0 {

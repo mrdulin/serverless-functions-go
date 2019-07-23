@@ -42,7 +42,7 @@ func (repo *GoogleAccountRepository) FindByClientCustomerIds(ids []int) ([]cedar
 	err = repo.Db.Select(&googleAccounts, query, args...)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			fmt.Printf("err = %v", sql.ErrNoRows)
+			fmt.Printf("err = %v\n", sql.ErrNoRows)
 			return googleAccounts, nil
 		}
 		return googleAccounts, errors.Wrap(err, "googleAccountRepo.Db.Select error")
@@ -52,6 +52,8 @@ func (repo *GoogleAccountRepository) FindByClientCustomerIds(ids []int) ([]cedar
 }
 
 func (repo *GoogleAccountRepository) FindByCampaignRanByZOWIForZELO() ([]cedar.GoogleAccount, error) {
+	var googleAccounts []cedar.GoogleAccount
+
 	query := `
 		select
 			distinct on (ga.google_account_id)
@@ -62,10 +64,9 @@ func (repo *GoogleAccountRepository) FindByCampaignRanByZOWIForZELO() ([]cedar.G
 		inner join "GOOGLE_ACCOUNT" as ga on ga.organization_id = org.parent_id
 		where c.campaign_ran_by_zowi = true;
 	`
-	var googleAccouts []cedar.GoogleAccount
-	err := repo.Db.Select(&googleAccouts, query)
+	err := repo.Db.Select(&googleAccounts, query)
 	if err != nil {
-		return googleAccouts, errors.Wrap(err, "googleAccountRepo.Db.Select error")
+		return googleAccounts, errors.Wrap(err, "googleAccountRepo.Db.Select error")
 	}
-	return googleAccouts, nil
+	return googleAccounts, nil
 }

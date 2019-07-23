@@ -58,7 +58,7 @@ func (repo *GoogleAccountRepository) FindByCampaignRanByZOWIForZELO() ([]cedar.G
 		where c.campaign_ran_by_zowi = true;
 	`
 	var googleAccouts []cedar.GoogleAccount
-	err := googleAccountRepo.Db.Select(&googleAccouts, query)
+	err := repo.Db.Select(&googleAccouts, query)
 	if err != nil {
 		return googleAccouts, errors.Wrap(err, "googleAccountRepo.Db.Select error")
 	}

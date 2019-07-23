@@ -3,7 +3,6 @@ package repositories
 import (
 	"reflect"
 	"serverless-functions-go/domain/models/cedar"
-	"serverless-functions-go/domain/repositories"
 	"testing"
 
 	"github.com/jmoiron/sqlx"
@@ -16,7 +15,7 @@ func TestNewGoogleAccountRepository(t *testing.T) {
 	tests := []struct {
 		name string
 		args args
-		want repositories.GoogleAccountRepository
+		want interface{}
 	}{
 		// TODO: Add test cases.
 	}

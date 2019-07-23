@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	repositoriesInterfaces "serverless-functions-go/domain/repositories"
 	"serverless-functions-go/domain/services"
 	"serverless-functions-go/infrastructure/config"
 	"serverless-functions-go/infrastructure/database"
@@ -19,6 +20,8 @@ type CompositionRoot struct {
 	GoogleAccountService  services.IGoogleAccountService
 
 	DataStoreService datastore.IService
+
+	GoogleAccountRepo repositoriesInterfaces.GoogleAccountRepository
 }
 
 func NewCompositionRoot() *CompositionRoot {
@@ -63,5 +66,6 @@ func NewCompositionRoot() *CompositionRoot {
 		campaignResultService,
 		googleAccountService,
 		dataStoreService,
+		googleAccountRepo,
 	}
 }

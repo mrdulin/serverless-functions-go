@@ -388,6 +388,7 @@
     "github.com/lib/pq",
     "github.com/pkg/errors",
     "github.com/spf13/viper",
+    "google.golang.org/api/option",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1

@@ -1,6 +1,8 @@
 package repositories
 
 import (
+	"database/sql"
+	"fmt"
 	"github.com/jmoiron/sqlx"
 	"github.com/pkg/errors"
 	"serverless-functions-go/domain/models/cedar"
@@ -37,9 +39,12 @@ func (repo *GoogleAccountRepository) FindByClientCustomerIds(ids []int) ([]cedar
 		return googleAccounts, errors.Wrap(err, "sqlx.In")
 	}
 	query = repo.Db.Rebind(query)
-
 	err = repo.Db.Select(&googleAccounts, query, args...)
 	if err != nil {
+		if err == sql.ErrNoRows {
+			fmt.Printf("err = %v", sql.ErrNoRows)
+			return googleAccounts, nil
+		}
 		return googleAccounts, errors.Wrap(err, "googleAccountRepo.Db.Select error")
 	}
 

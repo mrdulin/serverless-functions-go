@@ -5,6 +5,8 @@ import (
 	"reflect"
 	"serverless-functions-go/domain/models/cedar"
 	"serverless-functions-go/domain/repositories"
+	"serverless-functions-go/infrastructure/config"
+	"serverless-functions-go/infrastructure/database"
 	"testing"
 )
 
@@ -12,24 +14,25 @@ var (
 	googleAccountRepo repositories.GoogleAccountRepository
 )
 
-//func init() {
-//	appConf, err := config.New("os")
-//	if err != nil {
-//		panic(err)
-//	}
-//	dbConf := database.PGDatabaseConfig{
-//		Host:     appConf.SqlHost,
-//		Port:     appConf.SqlPort,
-//		User:     appConf.SqlUser,
-//		Password: appConf.SqlPassword,
-//		Dbname:   appConf.SqlDb,
-//	}
-//	db, err := database.ConnectPGDatabase(&dbConf)
-//	if err != nil {
-//		panic(err)
-//	}
-//	googleAccountRepo = NewGoogleAccountRepository(db)
-//}
+func init() {
+	appConf, err := config.New("os")
+	if err != nil {
+		panic(err)
+	}
+	dbConf := database.PGDatabaseConfig{
+		Host:     appConf.SqlHost,
+		Port:     appConf.SqlPort,
+		User:     appConf.SqlUser,
+		Password: appConf.SqlPassword,
+		Dbname:   appConf.SqlDb,
+	}
+	fmt.Printf("dbConf = %+v\n", dbConf)
+	db, err := database.ConnectPGDatabase(&dbConf)
+	if err != nil {
+		panic(err)
+	}
+	googleAccountRepo = NewGoogleAccountRepository(db)
+}
 
 func TestGoogleAccountRepository_FindByClientCustomerIds(t *testing.T) {
 	type args struct {
@@ -56,9 +59,8 @@ func TestGoogleAccountRepository_FindByClientCustomerIds(t *testing.T) {
 				return
 			}
 
-			fmt.Printf("got = %#v, want = %#v\n", got, tt.want)
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("GoogleAccountRepository.FindByClientCustomerIds() = %+v, want %+v", got, tt.want)
+				t.Errorf("GoogleAccountRepository.FindByClientCustomerIds() = %#v, want %#v", got, tt.want)
 			}
 		})
 	}

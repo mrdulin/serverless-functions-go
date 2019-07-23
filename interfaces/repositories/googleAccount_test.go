@@ -1,90 +1,64 @@
 package repositories
 
 import (
+	"fmt"
 	"reflect"
 	"serverless-functions-go/domain/models/cedar"
+	"serverless-functions-go/domain/repositories"
 	"testing"
-
-	"github.com/jmoiron/sqlx"
 )
 
-func TestNewGoogleAccountRepository(t *testing.T) {
-	type args struct {
-		Db *sqlx.DB
-	}
-	tests := []struct {
-		name string
-		args args
-		want interface{}
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := NewGoogleAccountRepository(tt.args.Db); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("NewGoogleAccountRepository() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
+var (
+	googleAccountRepo repositories.GoogleAccountRepository
+)
+
+//func init() {
+//	appConf, err := config.New("os")
+//	if err != nil {
+//		panic(err)
+//	}
+//	dbConf := database.PGDatabaseConfig{
+//		Host:     appConf.SqlHost,
+//		Port:     appConf.SqlPort,
+//		User:     appConf.SqlUser,
+//		Password: appConf.SqlPassword,
+//		Dbname:   appConf.SqlDb,
+//	}
+//	db, err := database.ConnectPGDatabase(&dbConf)
+//	if err != nil {
+//		panic(err)
+//	}
+//	googleAccountRepo = NewGoogleAccountRepository(db)
+//}
 
 func TestGoogleAccountRepository_FindByClientCustomerIds(t *testing.T) {
-	type fields struct {
-		Db *sqlx.DB
-	}
 	type args struct {
 		ids []int
 	}
 	tests := []struct {
 		name    string
-		fields  fields
 		args    args
 		want    []cedar.GoogleAccount
 		wantErr bool
 	}{
-		// TODO: Add test cases.
+		{
+			name:    "should get client customer ids correctly",
+			args:    args{ids: []int{9258066191}},
+			want:    make([]cedar.GoogleAccount, 0),
+			wantErr: false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			googleAccountRepo := &GoogleAccountRepository{
-				Db: tt.fields.Db,
-			}
 			got, err := googleAccountRepo.FindByClientCustomerIds(tt.args.ids)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("GoogleAccountRepository.FindByClientCustomerIds() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("GoogleAccountRepository.FindByClientCustomerIds() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
 
-func TestGoogleAccountRepository_FindByCampaignRanByZOWIForZELO(t *testing.T) {
-	type fields struct {
-		Db *sqlx.DB
-	}
-	tests := []struct {
-		name    string
-		fields  fields
-		want    []cedar.GoogleAccount
-		wantErr bool
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			googleAccountRepo := &GoogleAccountRepository{
-				Db: tt.fields.Db,
-			}
-			got, err := googleAccountRepo.FindByCampaignRanByZOWIForZELO()
-			if (err != nil) != tt.wantErr {
-				t.Errorf("GoogleAccountRepository.FindByCampaignRanByZOWIForZELO() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
+			fmt.Printf("got = %#v, want = %#v\n", got, tt.want)
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("GoogleAccountRepository.FindByCampaignRanByZOWIForZELO() = %v, want %v", got, tt.want)
+				t.Errorf("GoogleAccountRepository.FindByClientCustomerIds() = %+v, want %+v", got, tt.want)
 			}
 		})
 	}

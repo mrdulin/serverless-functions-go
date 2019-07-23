@@ -2,9 +2,9 @@ package application
 
 import (
 	"fmt"
+	"github.com/jmoiron/sqlx"
 	"log"
 	"os"
-	repositoriesInterfaces "serverless-functions-go/domain/repositories"
 	"serverless-functions-go/domain/services"
 	"serverless-functions-go/infrastructure/config"
 	"serverless-functions-go/infrastructure/database"
@@ -14,14 +14,13 @@ import (
 
 type CompositionRoot struct {
 	AppConfig *config.ApplicationConfig
+	Db        *sqlx.DB
 
 	CampaignService       services.ICampaignService
 	CampaignResultService services.ICampaignResultService
 	GoogleAccountService  services.IGoogleAccountService
 
 	DataStoreService datastore.IService
-
-	GoogleAccountRepo repositoriesInterfaces.GoogleAccountRepository
 }
 
 func NewCompositionRoot() *CompositionRoot {
@@ -62,10 +61,10 @@ func NewCompositionRoot() *CompositionRoot {
 
 	return &CompositionRoot{
 		appConfig,
+		db,
 		campaignService,
 		campaignResultService,
 		googleAccountService,
 		dataStoreService,
-		googleAccountRepo,
 	}
 }

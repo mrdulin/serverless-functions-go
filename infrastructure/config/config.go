@@ -17,7 +17,9 @@ const (
 	Os        Source = "os"
 )
 
-type IApplicationConfig interface{}
+type IApplicationConfig interface {
+	New(configSource Source, dataStoreService datastore.IService) (*ApplicationConfig, error)
+}
 
 type ApplicationConfig struct {
 	SqlInstanceConnectionName, SqlHost, SqlPort, SqlUser, SqlPassword, SqlDb, AdChannelApi string
@@ -25,7 +27,7 @@ type ApplicationConfig struct {
 	ClientCustomerId                                                                       int
 }
 
-func New(configSource Source, dataStoreService datastore.IService) (*ApplicationConfig, error) {
+func New(configSource Source, dataStoreService ...datastore.IService) (*ApplicationConfig, error) {
 	if os.Getenv("ENV") != "production" {
 		fmt.Println("load env vars from local fs env file")
 		v := viper.New()
@@ -62,7 +64,11 @@ func New(configSource Source, dataStoreService datastore.IService) (*Application
 			}, nil
 		case DataStore:
 			fmt.Println("load env vars from dataStore")
-			envVars, err := dataStoreService.GetEnvVars()
+			if len(dataStoreService) == 0 {
+				return nil, fmt.Errorf("dataStore service required")
+			}
+			dataStoreSvc := dataStoreService[0]
+			envVars, err := dataStoreSvc.GetEnvVars()
 			if err != nil {
 				return nil, err
 			}

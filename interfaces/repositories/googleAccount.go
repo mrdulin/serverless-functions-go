@@ -16,7 +16,7 @@ func NewGoogleAccountRepository(Db *sqlx.DB) repositories.GoogleAccountRepositor
 }
 
 func (repo *GoogleAccountRepository) FindByClientCustomerIds(ids []int) ([]cedar.GoogleAccount, error) {
-	var googleAccounts []cedar.GoogleAccount
+	var googleAccounts = make([]cedar.GoogleAccount, 0)
 
 	query := `
 		SELECT

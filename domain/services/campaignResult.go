@@ -3,6 +3,7 @@ package services
 import (
 	"fmt"
 	adChannelModels "serverless-functions-go/domain/models/adChannel"
+	"sync"
 
 	googleChannelAd "serverless-functions-go/domain/models/adChannel/ad"
 	googleChannelAdGroup "serverless-functions-go/domain/models/adChannel/adGroup"
@@ -25,6 +26,8 @@ func NewCampaignResultService(campaignResultRepo repositories.CampaignResultRepo
 }
 
 func (svc *CampaignResultService) UpdateStatusTransaction(rows []adChannelModels.AdPerformanceReportRow) error {
+	wg := sync.WaitGroup{}
+	wg.Add(len(rows))
 	// TODO: batch update
 	for _, row := range rows {
 		var campaignChannelStatus cedarCampaign.CampaignChannelStatus = ""
@@ -56,10 +59,16 @@ func (svc *CampaignResultService) UpdateStatusTransaction(rows []adChannelModels
 		}
 
 		if campaignChannelStatus == "" {
-			return fmt.Errorf("invalid campaign channel status")
+			return fmt.Errorf("invalid campaign channel status = %s", campaignChannelStatus)
 		}
 
-		return svc.campaignResultRepo.UpdateStatusTransaction(row, campaignChannelStatus)
+		go func(row adChannelModels.AdPerformanceReportRow) {
+			err := svc.campaignResultRepo.UpdateStatusTransaction(row, campaignChannelStatus)
+			if err != nil {
+				fmt.Printf("update status transaction error for row = %+v. error = %v\n", row, err)
+			}
+		}(row)
 	}
+	wg.Wait()
 	return nil
 }

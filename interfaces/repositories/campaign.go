@@ -44,8 +44,7 @@ func (cr *CampaignRepository) FindValidGoogleCampaign() ([]*cedarModels.Campaign
 		where 
 			c.campaign_channel_nme = 'google' and 
 			c.campaign_duration_end_dte > CURRENT_DATE - 2 and
-			loc.google_adwords_client_customer_id <> '' and 
-			gc.google_channel_campaign_id <> ''
+			gc.google_channel_campaign_id <> '';
 	`
 
 	rows, err := cr.Db.Queryx(query)

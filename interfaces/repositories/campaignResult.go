@@ -3,7 +3,6 @@ package repositories
 import (
 	"github.com/jmoiron/sqlx"
 	"github.com/pkg/errors"
-	"log"
 	models "serverless-functions-go/domain/models/adChannel"
 	cedarCampaign "serverless-functions-go/domain/models/cedar/campaign"
 	"serverless-functions-go/domain/repositories"
@@ -18,7 +17,6 @@ func NewCampaignResultRepository(Db *sqlx.DB) repositories.CampaignResultReposit
 }
 
 func (repo *CampaignResultRepository) UpdateStatusTransaction(row models.AdPerformanceReportRow, campaignChannelStatus cedarCampaign.CampaignChannelStatus) error {
-	log.Printf("%+v, %+v", row, campaignChannelStatus)
 	tx, err := repo.Db.Begin()
 	if err != nil {
 		return errors.Wrap(err, "repo.Db.Begin()")

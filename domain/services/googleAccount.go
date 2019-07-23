@@ -62,7 +62,6 @@ func (svc *GoogleAccountService) FindGoogleAccountsForReport() ([]*cedar.GoogleA
 				ClientCustomerId: googleAccountForZELO.GoogleAccountDefaultCustomerId.String,
 			})
 		}
-
 	}
 
 	if len(googleAccountsForReport) == 0 {

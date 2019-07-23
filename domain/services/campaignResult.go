@@ -63,6 +63,7 @@ func (svc *CampaignResultService) UpdateStatusTransaction(rows []adChannelModels
 		}
 
 		go func(row adChannelModels.AdPerformanceReportRow) {
+			defer wg.Done()
 			err := svc.campaignResultRepo.UpdateStatusTransaction(row, campaignChannelStatus)
 			if err != nil {
 				fmt.Printf("update status transaction error for row = %+v. error = %v\n", row, err)

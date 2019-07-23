@@ -15,7 +15,7 @@ func NewGoogleAccountRepository(Db *sqlx.DB) repositories.GoogleAccountRepositor
 	return &GoogleAccountRepository{Db}
 }
 
-func (googleAccountRepo *GoogleAccountRepository) FindByClientCustomerIds(ids []int) ([]cedar.GoogleAccount, error) {
+func (repo *GoogleAccountRepository) FindByClientCustomerIds(ids []int) ([]cedar.GoogleAccount, error) {
 	var googleAccounts []cedar.GoogleAccount
 
 	query := `
@@ -36,9 +36,9 @@ func (googleAccountRepo *GoogleAccountRepository) FindByClientCustomerIds(ids []
 	if err != nil {
 		return googleAccounts, errors.Wrap(err, "sqlx.In")
 	}
-	query = googleAccountRepo.Db.Rebind(query)
+	query = repo.Db.Rebind(query)
 
-	err = googleAccountRepo.Db.Select(&googleAccounts, query, args...)
+	err = repo.Db.Select(&googleAccounts, query, args...)
 	if err != nil {
 		return googleAccounts, errors.Wrap(err, "googleAccountRepo.Db.Select error")
 	}
@@ -46,7 +46,7 @@ func (googleAccountRepo *GoogleAccountRepository) FindByClientCustomerIds(ids []
 	return googleAccounts, nil
 }
 
-func (googleAccountRepo *GoogleAccountRepository) FindByCampaignRanByZOWIForZELO() ([]cedar.GoogleAccount, error) {
+func (repo *GoogleAccountRepository) FindByCampaignRanByZOWIForZELO() ([]cedar.GoogleAccount, error) {
 	query := `
 		select
 			distinct on (ga.google_account_id)

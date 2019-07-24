@@ -18,7 +18,7 @@ const (
 )
 
 type IApplicationConfig interface {
-	New(configSource Source, dataStoreService datastore.IService) (*ApplicationConfig, error)
+	New(configSource Source, dataStoreService ...datastore.IService) (*ApplicationConfig, error)
 }
 
 type ApplicationConfig struct {

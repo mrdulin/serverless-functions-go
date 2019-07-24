@@ -59,7 +59,7 @@ func (svc *CampaignResultService) UpdateStatusTransaction(rows []adChannelModels
 		}
 
 		if campaignChannelStatus == "" {
-			return fmt.Errorf("invalid campaign channel status = %s", campaignChannelStatus)
+			return fmt.Errorf("invalid campaign channel status. row = %#v", row)
 		}
 
 		go func(row adChannelModels.AdPerformanceReportRow) {

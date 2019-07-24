@@ -60,7 +60,7 @@ func (svc *GoogleAccountService) FindGoogleAccountsForReport() ([]cedar.GoogleAc
 		if googleAccountForZELO.GoogleAccountDefaultCustomerId.Valid {
 			googleAccountsForReport = append(googleAccountsForReport, cedar.GoogleAccountForReport{
 				RefreshToken:     googleAccountForZELO.GoogleAccountRefreshToken,
-				ClientCustomerId: googleAccountForZELO.GoogleAccountDefaultCustomerId.String,
+				ClientCustomerId: googleAccountForZELO.GoogleAccountDefaultCustomerId.String,\
 			})
 		}
 	}
@@ -69,8 +69,9 @@ func (svc *GoogleAccountService) FindGoogleAccountsForReport() ([]cedar.GoogleAc
 		return nil, fmt.Errorf("no google accounts for getting report")
 	}
 
-	googleAccountsForReportUnique := make([]cedar.GoogleAccountForReport, 0)
+	
 	got := utils.UniqueV2(googleAccountsForReport)
+  googleAccountsForReportUnique := make([]cedar.GoogleAccountForReport, len(got))
 	for idx, val := range got {
 		googleAccountsForReportUnique[idx] = val.(cedar.GoogleAccountForReport)
 	}

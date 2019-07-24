@@ -56,9 +56,11 @@ func (svc *CampaignResultService) UpdateStatusTransaction(rows []adChannelModels
 			if row.CampaignState == googleChannelCampaign.ENABLED && row.AdGroupState == googleChannelAdGroup.ENABLED && row.AdState == googleChannelAd.ENABLED {
 				campaignChannelStatus = cedarCampaign.FAILED
 			}
+		} else {
+			campaignChannelStatus = cedarCampaign.FAILED
 		}
 
-		if campaignChannelStatus == "" {
+		if campaignChannelStatus != cedarCampaign.SUCCESS && campaignChannelStatus != cedarCampaign.FAILED {
 			return fmt.Errorf("invalid campaign channel status. row = %#v", row)
 		}
 

@@ -4,10 +4,11 @@ import (
 	"fmt"
 	"serverless-functions-go/domain/models/cedar"
 	"serverless-functions-go/domain/repositories"
+	"serverless-functions-go/infrastructure/utils"
 )
 
 type IGoogleAccountService interface {
-	FindGoogleAccountsForReport() ([]*cedar.GoogleAccountForReport, error)
+	FindGoogleAccountsForReport() ([]cedar.GoogleAccountForReport, error)
 }
 
 type GoogleAccountService struct {
@@ -19,8 +20,8 @@ func NewGoogleAccountService(googleAccountRepo repositories.GoogleAccountReposit
 	return &GoogleAccountService{googleAccountRepo, locationRepo}
 }
 
-func (svc *GoogleAccountService) FindGoogleAccountsForReport() ([]*cedar.GoogleAccountForReport, error) {
-	var googleAccountsForReport []*cedar.GoogleAccountForReport
+func (svc *GoogleAccountService) FindGoogleAccountsForReport() ([]cedar.GoogleAccountForReport, error) {
+	var googleAccountsForReport = make([]cedar.GoogleAccountForReport, 0)
 	locations, err := svc.locationRepo.FindLocationsBoundGoogleClientCustomerId()
 	if err != nil {
 		return nil, err
@@ -45,7 +46,7 @@ func (svc *GoogleAccountService) FindGoogleAccountsForReport() ([]*cedar.GoogleA
 		return nil, err
 	}
 	for _, googleAccountForZOWI := range googleAccountsForZOWI {
-		googleAccountsForReport = append(googleAccountsForReport, &cedar.GoogleAccountForReport{
+		googleAccountsForReport = append(googleAccountsForReport, cedar.GoogleAccountForReport{
 			RefreshToken:     googleAccountForZOWI.GoogleAccountRefreshToken,
 			ClientCustomerId: googleAccountForZOWI.GoogleAdwordsClientCustomerId,
 		})
@@ -57,7 +58,7 @@ func (svc *GoogleAccountService) FindGoogleAccountsForReport() ([]*cedar.GoogleA
 	}
 	for _, googleAccountForZELO := range googleAccountsForZELO {
 		if googleAccountForZELO.GoogleAccountDefaultCustomerId.Valid {
-			googleAccountsForReport = append(googleAccountsForReport, &cedar.GoogleAccountForReport{
+			googleAccountsForReport = append(googleAccountsForReport, cedar.GoogleAccountForReport{
 				RefreshToken:     googleAccountForZELO.GoogleAccountRefreshToken,
 				ClientCustomerId: googleAccountForZELO.GoogleAccountDefaultCustomerId.String,
 			})
@@ -68,5 +69,11 @@ func (svc *GoogleAccountService) FindGoogleAccountsForReport() ([]*cedar.GoogleA
 		return nil, fmt.Errorf("no google accounts for getting report")
 	}
 
-	return googleAccountsForReport, nil
+	googleAccountsForReportUnique := make([]cedar.GoogleAccountForReport, 0)
+	got := utils.UniqueV2(googleAccountsForReport)
+	for idx, val := range got {
+		googleAccountsForReportUnique[idx] = val.(cedar.GoogleAccountForReport)
+	}
+
+	return googleAccountsForReportUnique, nil
 }

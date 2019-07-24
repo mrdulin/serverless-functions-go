@@ -25,6 +25,7 @@ type EnvVarEntity struct {
 	STORAGE_BUCKET_NAME          string
 	SQL_INSTANCE_CONNECTION_NAME string
 	STORAGE_PRIVATE_KEY          string
+	STORAGE_CLIENT_EMAIL         string
 }
 
 type IService interface {

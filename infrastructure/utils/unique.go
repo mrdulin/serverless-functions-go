@@ -44,3 +44,6 @@ func UniqueV2(slice interface{}) []interface{} {
 	}
 	return ret
 }
+
+// Unique best
+// https://play.golang.org/p/ckNErHx81oQ
